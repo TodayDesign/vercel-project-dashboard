@@ -1,0 +1,436 @@
+{
+    "accountId": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+    "speedInsights": {
+      "id": "4RTighYvkr3krTTbSTQb0pSrBNn",
+      "hasData": false
+    },
+    "autoExposeSystemEnvs": true,
+    "autoAssignCustomDomains": true,
+    "autoAssignCustomDomainsUpdatedBy": "system",
+    "buildCommand": null,
+    "createdAt": 1687661301300,
+    "crons": {
+      "enabledAt": 1687661376672,
+      "disabledAt": null,
+      "updatedAt": 1749630029793,
+      "deploymentId": "dpl_9XVRqUWtQrFk75c1h6PXo7BtuKg7",
+      "definitions": []
+    },
+    "devCommand": null,
+    "directoryListing": false,
+    "env": [
+      {
+        "target": [
+          "development",
+          "production",
+          "preview"
+        ],
+        "configurationId": "icfg_Iv1vX7S6qQnKzchjkihFbBQ8",
+        "id": "ZohAJT6X5WxLovb2",
+        "key": "NEXT_DATOCMS_API_TOKEN",
+        "createdAt": 1687661313466,
+        "updatedAt": 1687661313466,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "GCT0xGgn9dSSbC7Z/jA0YCh1SwUB/fKmAaxhOaKp+mgsE/OPUJqjGL/A6w6NLsu3"
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "HhitYRBdiaFK6wcs",
+        "key": "AIRTABLE_APP_ID",
+        "createdAt": 1741311454218,
+        "updatedAt": 1741311454218,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "MNPms7cQ6u4u62BZg3C0bZrDRCB2wAtDPAo5DXkQVSifA94x2F1suTc41DNSaOMA"
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "sozLNyPbtoKowVtp",
+        "key": "AIRTABLE_TABLE_ID",
+        "createdAt": 1741311454221,
+        "updatedAt": 1741311454221,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "z+KR2XXKYFR6EfOsKf3HevqwncmgJJyeP9/12PeSrJjdYNv58/esApE0G6K4jpXf"
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "heSmM4DwufbscPj9",
+        "key": "AIRTABLE_VIEW_ID",
+        "createdAt": 1741311454225,
+        "updatedAt": 1741311454225,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "CczpUW308upnVrm+MHIdMxecXOEOIPVxwHyjxjMljPF30e3AwTv7MSBLsiUv6SPc"
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "i2GIs2nLXYVzX7IG",
+        "key": "AIRTABLE_TOKEN",
+        "createdAt": 1741311454228,
+        "updatedAt": 1741311454228,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "gjC7Jj6FUooSkuJ4XG/zECfsSCxqznxKA5A01eD6Sn5pXo5hcnzJdvhHBv6OXqhXnuci89LNvC3mky75HOqAKYFdfTDKT7Pb9KSCDdIx+HluWNIwp2W4ZEHryK53yLUaLzrJxmqhaZGxwNxFrgdi9w=="
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "Q1dJeq4sf3DDhSkB",
+        "key": "AIRTABLE_TABLE_NAME",
+        "createdAt": 1741311532048,
+        "updatedAt": 1741311532048,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "qNDYGub71jskva1EHtAmnNhy/kDvEaZtG0ecuNGmOKE="
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "0Y6Ii882VcrTqTPk",
+        "key": "VALIDATE_RECORD_HASHES",
+        "createdAt": 1741424664519,
+        "updatedAt": 1741424664519,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "RpkT8WrI+wpmZb3SHNMQThZMndhME8TDLlfy/94yAKY="
+      },
+      {
+        "target": [
+          "development",
+          "preview",
+          "production"
+        ],
+        "configurationId": null,
+        "customEnvironmentIds": [],
+        "id": "yv8xhF199nTq5Cqh",
+        "key": "NEXT_PUBLIC_API_PATH",
+        "createdAt": 1741425490774,
+        "updatedAt": 1741425490774,
+        "createdBy": "wz95RmEFifvH7qqsckneXBib",
+        "updatedBy": null,
+        "type": "encrypted",
+        "value": "Ds0gu7vsApT3/MNxSmXYLsLyQ1Ru9o5KKTk1FzrYmKE="
+      }
+    ],
+    "framework": "nextjs",
+    "gitForkProtection": true,
+    "gitLFS": false,
+    "id": "prj_RO9AtVD3MRO9qqyUoAOxotMZJCCr",
+    "installCommand": null,
+    "lastRollbackTarget": null,
+    "lastAliasRequest": null,
+    "name": "guy-malyaris-wedding",
+    "nodeVersion": "18.x",
+    "outputDirectory": null,
+    "passwordProtection": null,
+    "publicSource": null,
+    "defaultResourceConfig": {
+      "fluid": false,
+      "functionDefaultRegions": [
+        "iad1"
+      ],
+      "functionDefaultTimeout": 300,
+      "functionDefaultMemoryType": "standard_legacy",
+      "functionZeroConfigFailover": false,
+      "elasticConcurrencyEnabled": false
+    },
+    "resourceConfig": {
+      "functionDefaultRegions": [
+        "iad1"
+      ],
+      "functionDefaultMemoryType": "standard_legacy"
+    },
+    "rootDirectory": null,
+    "serverlessFunctionRegion": "iad1",
+    "sourceFilesOutsideRootDirectory": true,
+    "updatedAt": 1749630029793,
+    "live": false,
+    "gitComments": {
+      "onCommit": false,
+      "onPullRequest": true
+    },
+    "webAnalytics": {
+      "id": "Fh8txsq5eHi3ucFodBfxMM8oI"
+    },
+    "link": {
+      "type": "gitlab",
+      "projectId": "47142784",
+      "projectName": "guy-malyaris-wedding",
+      "projectNameWithNamespace": "Nik Maly / guy-malyaris-wedding",
+      "projectNamespace": "nikmaly",
+      "projectUrl": "https://gitlab.com/nikmaly/guy-malyaris-wedding",
+      "gitCredentialId": "cred_b5684c34ba96a6cb36bc558a1de4728f5025f254",
+      "productionBranch": "main",
+      "createdAt": 1687661300758,
+      "updatedAt": 1687661300758,
+      "deployHooks": [
+        {
+          "createdAt": 1687661304411,
+          "id": "7w88rJvGi3",
+          "name": "DatoCMS",
+          "ref": "main",
+          "url": "https://api.vercel.com/v1/integrations/deploy/prj_RO9AtVD3MRO9qqyUoAOxotMZJCCr/7w88rJvGi3"
+        }
+      ]
+    },
+    "latestDeployments": [
+      {
+        "alias": [
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "wedding.malyaris.com",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding.vercel.app"
+        ],
+        "aliasAssigned": 1749630029844,
+        "aliasError": null,
+        "automaticAliases": [
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        ],
+        "builds": [],
+        "createdAt": 1749629983986,
+        "createdIn": "sfo1",
+        "creator": {
+          "uid": "wz95RmEFifvH7qqsckneXBib",
+          "email": "nik@malyaris.com",
+          "username": "nikmaly"
+        },
+        "deploymentHostname": "guy-malyaris-wedding-bidrxk9fl-niks-projects-a0b6c412",
+        "forced": false,
+        "id": "dpl_9XVRqUWtQrFk75c1h6PXo7BtuKg7",
+        "meta": {
+          "gitlabCommitAuthorName": "Nik Malyaris",
+          "gitlabCommitMessage": "[FIX] make name comparison neither case nor space sensitive\n",
+          "gitlabCommitRef": "main",
+          "gitlabCommitSha": "8f01b54c846bb0d3fbdc947fd2172e1e2ef4e7c1",
+          "gitlabDeployment": "1",
+          "gitlabProjectName": "guy-malyaris-wedding",
+          "gitlabProjectNamespace": "nikmaly",
+          "gitlabProjectPath": "nikmaly/guy-malyaris-wedding",
+          "gitlabProjectRepo": "guy-malyaris-wedding",
+          "gitlabNamespaceKind": "user",
+          "gitlabProjectId": "47142784",
+          "gitlabCommitRawAuthorEmail": "nik@malyaris.com",
+          "gitlabProjectVisibility": "private",
+          "deployHookId": "7w88rJvGi3",
+          "deployHookRef": "main",
+          "deployHookName": "DatoCMS",
+          "branchAlias": "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        },
+        "name": "guy-malyaris-wedding",
+        "plan": "hobby",
+        "private": true,
+        "readyState": "READY",
+        "readySubstate": "PROMOTED",
+        "target": "production",
+        "teamId": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+        "type": "LAMBDAS",
+        "url": "guy-malyaris-wedding-bidrxk9fl-niks-projects-a0b6c412.vercel.app",
+        "userId": "wz95RmEFifvH7qqsckneXBib",
+        "withCache": true,
+        "buildingAt": 1749629985171,
+        "readyAt": 1749630029595,
+        "previewCommentsEnabled": true,
+        "oidcTokenClaims": {
+          "sub": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "iss": "https://oidc.vercel.com/niks-projects-a0b6c412",
+          "scope": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "aud": "https://vercel.com/niks-projects-a0b6c412",
+          "owner": "niks-projects-a0b6c412",
+          "owner_id": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+          "project": "guy-malyaris-wedding",
+          "project_id": "prj_RO9AtVD3MRO9qqyUoAOxotMZJCCr",
+          "environment": "production"
+        }
+      },
+      {
+        "alias": [
+          "guy-malyaris-wedding.vercel.app",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "wedding.malyaris.com"
+        ],
+        "aliasAssigned": 1749628994379,
+        "aliasError": null,
+        "automaticAliases": [
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        ],
+        "builds": [],
+        "createdAt": 1749628950846,
+        "createdIn": "sfo1",
+        "creator": {
+          "uid": "wz95RmEFifvH7qqsckneXBib",
+          "email": "nik@malyaris.com",
+          "username": "nikmaly"
+        },
+        "deploymentHostname": "guy-malyaris-wedding-2xxd12nfr-niks-projects-a0b6c412",
+        "forced": false,
+        "id": "dpl_5EF46QZMtUoapC2Bk5yaVbixFi9H",
+        "meta": {
+          "gitlabCommitAuthorName": "Nik Malyaris",
+          "gitlabCommitMessage": "[FIX] make name comparison neither case nor space sensitive\n",
+          "gitlabCommitRef": "main",
+          "gitlabCommitSha": "8f01b54c846bb0d3fbdc947fd2172e1e2ef4e7c1",
+          "gitlabDeployment": "1",
+          "gitlabProjectName": "guy-malyaris-wedding",
+          "gitlabProjectNamespace": "nikmaly",
+          "gitlabProjectPath": "nikmaly/guy-malyaris-wedding",
+          "gitlabProjectRepo": "guy-malyaris-wedding",
+          "gitlabNamespaceKind": "user",
+          "gitlabProjectId": "47142784",
+          "gitlabCommitRawAuthorEmail": "nik@malyaris.com",
+          "gitlabProjectVisibility": "private",
+          "deployHookId": "7w88rJvGi3",
+          "deployHookRef": "main",
+          "deployHookName": "DatoCMS",
+          "branchAlias": "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        },
+        "name": "guy-malyaris-wedding",
+        "plan": "hobby",
+        "private": true,
+        "readyState": "READY",
+        "readySubstate": "PROMOTED",
+        "target": "production",
+        "teamId": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+        "type": "LAMBDAS",
+        "url": "guy-malyaris-wedding-2xxd12nfr-niks-projects-a0b6c412.vercel.app",
+        "userId": "wz95RmEFifvH7qqsckneXBib",
+        "withCache": true,
+        "buildingAt": 1749628951830,
+        "readyAt": 1749628994129,
+        "previewCommentsEnabled": true,
+        "oidcTokenClaims": {
+          "sub": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "iss": "https://oidc.vercel.com/niks-projects-a0b6c412",
+          "scope": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "aud": "https://vercel.com/niks-projects-a0b6c412",
+          "owner": "niks-projects-a0b6c412",
+          "owner_id": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+          "project": "guy-malyaris-wedding",
+          "project_id": "prj_RO9AtVD3MRO9qqyUoAOxotMZJCCr",
+          "environment": "production"
+        }
+      }
+    ],
+    "targets": {
+      "production": {
+        "alias": [
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "wedding.malyaris.com",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding.vercel.app"
+        ],
+        "aliasAssigned": 1749630029844,
+        "aliasError": null,
+        "automaticAliases": [
+          "guy-malyaris-wedding-niks-projects-a0b6c412.vercel.app",
+          "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        ],
+        "builds": [],
+        "createdAt": 1749629983986,
+        "createdIn": "sfo1",
+        "creator": {
+          "uid": "wz95RmEFifvH7qqsckneXBib",
+          "email": "nik@malyaris.com",
+          "username": "nikmaly"
+        },
+        "deploymentHostname": "guy-malyaris-wedding-bidrxk9fl-niks-projects-a0b6c412",
+        "forced": false,
+        "id": "dpl_9XVRqUWtQrFk75c1h6PXo7BtuKg7",
+        "meta": {
+          "gitlabCommitAuthorName": "Nik Malyaris",
+          "gitlabCommitMessage": "[FIX] make name comparison neither case nor space sensitive\n",
+          "gitlabCommitRef": "main",
+          "gitlabCommitSha": "8f01b54c846bb0d3fbdc947fd2172e1e2ef4e7c1",
+          "gitlabDeployment": "1",
+          "gitlabProjectName": "guy-malyaris-wedding",
+          "gitlabProjectNamespace": "nikmaly",
+          "gitlabProjectPath": "nikmaly/guy-malyaris-wedding",
+          "gitlabProjectRepo": "guy-malyaris-wedding",
+          "gitlabNamespaceKind": "user",
+          "gitlabProjectId": "47142784",
+          "gitlabCommitRawAuthorEmail": "nik@malyaris.com",
+          "gitlabProjectVisibility": "private",
+          "deployHookId": "7w88rJvGi3",
+          "deployHookRef": "main",
+          "deployHookName": "DatoCMS",
+          "branchAlias": "guy-malyaris-wedding-git-main-niks-projects-a0b6c412.vercel.app"
+        },
+        "name": "guy-malyaris-wedding",
+        "plan": "hobby",
+        "private": true,
+        "readyState": "READY",
+        "readySubstate": "PROMOTED",
+        "target": "production",
+        "teamId": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+        "type": "LAMBDAS",
+        "url": "guy-malyaris-wedding-bidrxk9fl-niks-projects-a0b6c412.vercel.app",
+        "userId": "wz95RmEFifvH7qqsckneXBib",
+        "withCache": true,
+        "buildingAt": 1749629985171,
+        "readyAt": 1749630029595,
+        "previewCommentsEnabled": true,
+        "oidcTokenClaims": {
+          "sub": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "iss": "https://oidc.vercel.com/niks-projects-a0b6c412",
+          "scope": "owner:niks-projects-a0b6c412:project:guy-malyaris-wedding:environment:production",
+          "aud": "https://vercel.com/niks-projects-a0b6c412",
+          "owner": "niks-projects-a0b6c412",
+          "owner_id": "team_vvOPe5hPVQA3MXDBRAAIpXUG",
+          "project": "guy-malyaris-wedding",
+          "project_id": "prj_RO9AtVD3MRO9qqyUoAOxotMZJCCr",
+          "environment": "production"
+        }
+      }
+    },
+    "transferStartedAt": 1712750956396,
+    "transferCompletedAt": 1712750960572,
+    "transferredFromAccountId": "wz95RmEFifvH7qqsckneXBib",
+    "features": {
+      "webAnalytics": false
+    }
+  }

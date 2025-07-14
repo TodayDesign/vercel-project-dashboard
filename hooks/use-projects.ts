@@ -36,9 +36,7 @@ export function useProjects(): UseProjectsReturn {
   }
 
   useEffect(() => {
-    console.log("[useProjects] isAuthenticated:", isAuthenticated)
     if (isAuthenticated) {
-      console.log("[useProjects] Fetching projects")
       fetchProjects()
     }
   }, [isAuthenticated])

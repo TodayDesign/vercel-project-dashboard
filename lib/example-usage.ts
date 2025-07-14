@@ -8,16 +8,16 @@ export function exampleUsage() {
   const vercelProject = exampleData as VercelProject
   const project = convertVercelProjectToProject(vercelProject)
   
-  console.log('Converted project:', {
-    name: project.name,
-    projectUrl: project.projectUrl,
-    settingsUrl: project.settingsUrl,
-    lastDeployment: {
-      branch: project.lastDeployment.branch,
-      commit: project.lastDeployment.commit,
-      triggeredBy: project.lastDeployment.triggeredBy.name
-    }
-  })
+  // console.log('Converted project:', {
+  //   name: project.name,
+  //   projectUrl: project.projectUrl,
+  //   settingsUrl: project.settingsUrl,
+  //   lastDeployment: {
+  //     branch: project.lastDeployment.branch,
+  //     commit: project.lastDeployment.commit,
+  //     triggeredBy: project.lastDeployment.triggeredBy.name
+  //   }
+  // })
   
   return project
 }

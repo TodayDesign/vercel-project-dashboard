@@ -70,8 +70,6 @@ export function validateAuth(username: string, password: string): AuthResult {
 export async function requireAuth(request: NextRequest): Promise<AuthResult> {
   const authHeader = request.headers.get('authorization')
 
-  console.log('authHeader', authHeader)
-
   if (!authHeader) {
     return {
       success: false,
@@ -80,7 +78,6 @@ export async function requireAuth(request: NextRequest): Promise<AuthResult> {
   }
 
   const credentials = parseBasicAuth(authHeader)
-  console.log('credentials', credentials)
 
   if (!credentials) {
     return {

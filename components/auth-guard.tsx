@@ -10,21 +10,14 @@ interface AuthGuardProps {
 export function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, login } = useAuth()
 
-  console.log("[AuthGuard] isAuthenticated:", isAuthenticated)
-
-  // The browser's native auth dialog will be triggered automatically
-  // when the API returns 401 with WWW-Authenticate header
-
   const handleLogin = async () => {
-    // Trigger API call which will show browser's native auth dialog
     try {
       const response = await fetch('/api/projects')
       if (response.ok) {
-        // Authentication succeeded, update React state
-        await login('authenticated-user', 'placeholder') // Dummy values since browser handled real auth
+        await login('authenticated-user', 'placeholder')
       }
     } catch (error) {
-      console.log('Auth trigger error:', error)
+      console.error('Auth trigger error:', error)
     }
   }
 

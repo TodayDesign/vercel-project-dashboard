@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, ReactNode } from "react"
+import { ReactNode } from "react"
 import { useAuth } from "./auth-provider"
 
 interface AuthGuardProps {
@@ -8,30 +8,22 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { isAuthenticated, showAuthDialog } = useAuth()
-  const hasShownDialogRef = useRef(false)
+  const { isAuthenticated } = useAuth()
 
   console.log("[AuthGuard] isAuthenticated:", isAuthenticated)
 
-  useEffect(() => {
-    if (!isAuthenticated && !hasShownDialogRef.current) {
-      console.log("[AuthGuard] Showing auth dialog")
-      // Show authentication dialog only once when component mounts
-      const timer = setTimeout(() => {
-        showAuthDialog()
-        hasShownDialogRef.current = true
-      }, 100) // Small delay to ensure the component is mounted
+  // The browser's native auth dialog will be triggered automatically
+  // when the API returns 401 with WWW-Authenticate header
+  // No need to manually trigger it here
 
-      return () => clearTimeout(timer)
+  const handleLogin = async () => {
+    // Trigger API call which will show browser's native auth dialog
+    try {
+      await fetch('/api/projects')
+    } catch (error) {
+      console.log('Auth trigger error:', error)
     }
-  }, [isAuthenticated, showAuthDialog])
-
-  // Reset the dialog flag when user becomes authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      hasShownDialogRef.current = false
-    }
-  }, [isAuthenticated])
+  }
 
   if (!isAuthenticated) {
     return (
@@ -39,7 +31,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
         <div className="text-center">
           <div className="text-gray-500 text-lg mb-4">Authentication Required</div>
           <button
-            onClick={showAuthDialog}
+            onClick={handleLogin}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Login

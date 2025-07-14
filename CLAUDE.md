@@ -154,20 +154,27 @@ See `docs/workflow/FEATURE_WORKFLOW.md` for complete workflow details.
 
 ## Authentication
 
-The application implements Basic HTTP authentication for both UI and API access:
+The application implements Basic HTTP authentication using the browser's native credential dialog:
 
-### UI Authentication
-- Uses React Context (`AuthProvider`) for state management
-- Alert-based login popup with username/password prompts
-- Session persistence via localStorage
-- Automatic logout functionality in header
-- Auth guard component prevents unauthorized access
+### Native Browser Authentication
+- Uses browser's native Basic Auth dialog (username/password popup)
+- API endpoints return 401 with `WWW-Authenticate: Basic` header
+- Browser automatically handles credential caching and presentation
+- React Context (`AuthProvider`) tracks authentication state
+- Auth guard component shows fallback UI until authenticated
 
 ### API Authentication  
 - All API endpoints protected with Basic HTTP authentication
 - Reusable `requireAuth()` utility in `lib/auth.ts`
 - Higher-order `withAuth()` function for wrapping route handlers
-- Proper WWW-Authenticate headers for browser authentication prompts
+- Proper WWW-Authenticate headers trigger browser's native auth dialog
+
+### Authentication Flow
+1. User accesses protected resource
+2. API returns 401 with `WWW-Authenticate: Basic realm="Vercel Dashboard"`
+3. Browser shows native username/password dialog
+4. Browser automatically includes credentials in subsequent requests
+5. React app tracks authentication state via API response success
 
 ### Usage for New API Routes
 ```typescript

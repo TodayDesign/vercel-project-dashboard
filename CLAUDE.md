@@ -46,13 +46,30 @@ app/
 └── page.tsx                       # Main dashboard page
 
 components/
-├── project-card.tsx               # Reusable project card component
+├── dashboard-header.tsx           # Header with refresh functionality
+├── enhanced-project-card.tsx      # Main project card component
+├── project-grid.tsx               # Grid layout for projects
+├── search-and-filters.tsx         # Search and status filtering
 ├── theme-provider.tsx             # Theme context provider
-└── ui/                           # shadcn/ui components
+└── ui/                           # shadcn/ui components (extensive)
+
+hooks/
+├── use-mobile.tsx                 # Mobile detection hook
+├── use-projects.ts                # Project data fetching hook
+└── use-toast.ts                   # Toast notifications
 
 lib/
-├── utils.ts                      # Utility functions (cn, etc.)
-└── vercel-api.ts                 # Vercel API client class
+├── example-vercel-project-data.json  # Sample API response data
+├── mock-data.ts                   # Mock project data for development
+├── project-utils.tsx              # Utility functions for projects
+├── types.ts                       # TypeScript interface definitions
+├── utils.ts                       # General utility functions (cn, etc.)
+├── vercel-api.ts                  # Vercel API client class
+└── vercel-transform.ts            # Transform Vercel API data
+
+docs/
+└── workflow/
+    └── FEATURE_WORKFLOW.md        # Feature development process
 ```
 
 ## Key Architecture Notes
@@ -64,22 +81,30 @@ lib/
 - Environment variable `VERCEL_API_TOKEN` is required for API authentication
 
 ### Data Flow
-- Main dashboard (`app/page.tsx`) currently uses mock data
-- Real API integration is prepared but commented out in API routes
-- Project and deployment data structures are defined in TypeScript interfaces
+- Main dashboard (`app/page.tsx`) uses `useProjects` hook for data fetching
+- API integration via `/api/projects` endpoint with fallback to mock data
+- Data transformations handled in `lib/vercel-transform.ts`
+- TypeScript interfaces defined in `lib/types.ts` (dual interface system: `VercelProject` from API, `Project` for UI)
 
 ### UI Components
 - Built with shadcn/ui component library (Radix UI + Tailwind CSS)
+- Modular component architecture:
+  - `EnhancedProjectCard`: Feature-rich project cards with tabs for deployments, environments, cron jobs
+  - `ProjectGrid`: Responsive grid layout for project display
+  - `SearchAndFilters`: Search and status filtering functionality
+  - `DashboardHeader`: Header with refresh controls
 - Comprehensive project cards showing:
-  - Deployment status and history
-  - Multiple environments (production, staging, develop)
-  - CRON jobs and analytics
-  - Version information and dependencies
-- Responsive design with mobile-first approach
+  - Deployment status and history with branching info
+  - Multiple environments (production, staging, develop) 
+  - CRON jobs with schedule formatting
+  - Analytics and version information
+  - Direct links to project, settings, and source code
+- Responsive design with mobile-first approach and mobile detection hooks
 
-### Component Structure
-- `ProjectCard` component is available but main dashboard uses inline implementation
-- All UI components follow shadcn/ui patterns
+### Component Architecture
+- Uses custom hooks pattern (`use-projects.ts`, `use-mobile.tsx`, `use-toast.ts`)
+- Utility functions in `lib/project-utils.tsx` for consistent formatting
+- All UI components follow shadcn/ui patterns with extensive component library
 - Icons from Lucide React
 
 ## Development Notes
@@ -87,11 +112,78 @@ lib/
 - ESLint and TypeScript errors are ignored during builds (see next.config.mjs)
 - Images are unoptimized for deployment flexibility
 - Mock data structure mirrors expected Vercel API responses
-- Ready for real API integration by uncommenting API routes and adding VERCEL_API_TOKEN
+- Feature development follows structured workflow in `docs/workflow/FEATURE_WORKFLOW.md`
+- Supports both personal and team Vercel accounts via `VERCEL_TEAM_ID` environment variable
+
+## Environment Variables
+
+Required for production API integration:
+- `VERCEL_API_TOKEN` - Vercel API authentication token
+- `VERCEL_TEAM_ID` - (Optional) Team ID for team projects
+
+Authentication configuration (required):
+- `AUTH_USERNAME` - Basic auth username (authentication fails if not set)
+- `AUTH_PASSWORD` - Basic auth password (authentication fails if not set)
 
 ## API Endpoints
 
-- `GET /api/projects` - Returns list of Vercel projects
+All API endpoints require Basic HTTP authentication.
+
+- `GET /api/projects` - Returns list of Vercel projects with fallback to error data when API unavailable
 - `GET /api/deployments/[projectId]` - Returns deployments for specific project
 
-Both endpoints are prepared for Vercel API integration but currently return mock data or fetch directly without proper error handling.
+API routes include comprehensive error handling and return mock error data when Vercel API is unavailable. Authentication is handled by `lib/auth.ts` utility functions.
+
+## Data Architecture
+
+The application uses a dual-interface system:
+- `VercelProject` - Raw interface matching Vercel API response structure
+- `Project` - Transformed interface optimized for UI components
+- Transformation handled by `transformVercelProject()` in `lib/vercel-transform.ts`
+- Mock data available in `lib/mock-data.ts` and `lib/example-vercel-project-data.json`
+
+## Feature Development Workflow
+
+This project follows a structured feature development process:
+1. Feature specification generation in `feature-specs/` directory
+2. Review and approval process
+3. Implementation with TodoWrite tracking
+4. Integration testing
+
+See `docs/workflow/FEATURE_WORKFLOW.md` for complete workflow details.
+
+## Authentication
+
+The application implements Basic HTTP authentication for both UI and API access:
+
+### UI Authentication
+- Uses React Context (`AuthProvider`) for state management
+- Alert-based login popup with username/password prompts
+- Session persistence via localStorage
+- Automatic logout functionality in header
+- Auth guard component prevents unauthorized access
+
+### API Authentication  
+- All API endpoints protected with Basic HTTP authentication
+- Reusable `requireAuth()` utility in `lib/auth.ts`
+- Higher-order `withAuth()` function for wrapping route handlers
+- Proper WWW-Authenticate headers for browser authentication prompts
+
+### Usage for New API Routes
+```typescript
+import { requireAuth, createUnauthorizedResponse } from "@/lib/auth"
+
+export async function GET(request: NextRequest) {
+  const authResult = await requireAuth(request)
+  if (!authResult.success) {
+    return createUnauthorizedResponse(authResult.error)
+  }
+  // Your API logic here
+}
+
+// Or use the higher-order function:
+import { withAuth } from "@/lib/auth"
+export const GET = withAuth(async (request) => {
+  // Your API logic here
+})
+```

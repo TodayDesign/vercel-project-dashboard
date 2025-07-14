@@ -20,10 +20,12 @@ export default function VercelDashboard() {
     return matchesSearch && matchesStatus
   })
 
-  useEffect(() => {
-    console.log('Raw project data: ', projects)
-    console.log('Filtered projects: ', filteredProjects)
-  }, [projects])
+  if (process.env.NODE_ENV === "development") {
+    useEffect(() => {
+      console.log('Raw project data: ', projects)
+      console.log('Filtered projects: ', filteredProjects)
+    }, [projects])
+  }
 
   const handleRefresh = async () => {
     setIsRefreshing(true)

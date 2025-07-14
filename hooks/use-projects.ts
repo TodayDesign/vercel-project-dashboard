@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Project } from "@/lib/types"
+import { useAuth } from "@/components/auth-provider"
 
 interface UseProjectsReturn {
   projects: Project[]
@@ -12,6 +13,7 @@ export function useProjects(): UseProjectsReturn {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { isAuthenticated } = useAuth()
 
   const fetchProjects = async () => {
     try {
@@ -34,8 +36,12 @@ export function useProjects(): UseProjectsReturn {
   }
 
   useEffect(() => {
-    fetchProjects()
-  }, [])
+    console.log("[useProjects] isAuthenticated:", isAuthenticated)
+    if (isAuthenticated) {
+      console.log("[useProjects] Fetching projects")
+      fetchProjects()
+    }
+  }, [isAuthenticated])
 
   return {
     projects,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { errorProjects } from "@/lib/mock-data"
 import { transformVercelProject } from "@/lib/vercel-transform"
-import { VercelProject } from "@/lib/types"
+import { RawVercelProject, ProjectWithSource } from "@/lib/types"
 import { requireAuth, createUnauthorizedResponse } from "@/lib/auth"
 
 /**
@@ -35,13 +35,7 @@ const errorResponseApiFailure = (error: Error) => {
  * @returns NextResponse with projects data
  */
 export async function GET(request: NextRequest) {
-  console.log("[api/projects] GET request received")
-  console.log("[api/projects] Request URL:", request.url)
-  console.log("[api/projects] Request headers:", Object.fromEntries(request.headers.entries()))
-  
-  // Check authentication
   const authResult = await requireAuth(request)
-  console.log("[api/projects] Auth result:", authResult)
   
   if (!authResult.success) {
     console.error("[api/projects] Authentication failed:", authResult.error)
@@ -49,13 +43,6 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Log environment variable status (without exposing sensitive values)
-    console.log("[api/projects] Environment check:")
-    console.log("[api/projects] - VERCEL_API_TOKEN exists:", !!process.env.VERCEL_API_TOKEN)
-    console.log("[api/projects] - VERCEL_API_TOKEN length:", process.env.VERCEL_API_TOKEN?.length || 0)
-    console.log("[api/projects] - VERCEL_TEAM_ID exists:", !!process.env.VERCEL_TEAM_ID)
-    console.log("[api/projects] - VERCEL_TEAM_ID value:", process.env.VERCEL_TEAM_ID || "not set")
-    
     // Check if we have a Vercel API token
     if (!process.env.VERCEL_API_TOKEN) {
       console.error("[api/projects] VERCEL_API_TOKEN is missing")
@@ -67,21 +54,12 @@ export async function GET(request: NextRequest) {
     const teamId = process.env.VERCEL_TEAM_ID
     const url = teamId ? `https://api.vercel.com/v9/projects?teamId=${teamId}` : 'https://api.vercel.com/v9/projects'
     
-    console.log("[api/projects] Making request to Vercel API:")
-    console.log("[api/projects] - URL:", url)
-    console.log("[api/projects] - Team ID:", teamId || "not set")
-    
     const projectsResponse = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${process.env.VERCEL_API_TOKEN}`,
         'Content-Type': 'application/json',
       },
     })
-
-    console.log("[api/projects] Vercel API response received:")
-    console.log("[api/projects] - Status:", projectsResponse.status)
-    console.log("[api/projects] - Status text:", projectsResponse.statusText)
-    console.log("[api/projects] - Response headers:", Object.fromEntries(projectsResponse.headers.entries()))
 
     // ERROR RESPONSE: Vercel API error
     if (!projectsResponse.ok) {
@@ -94,20 +72,16 @@ export async function GET(request: NextRequest) {
     }
 
     const projectsData = await projectsResponse.json()
-    console.log("[api/projects] Projects data received:")
-    console.log("[api/projects] - Number of projects:", projectsData.projects?.length || 0)
-    console.log("[api/projects] - Projects data keys:", Object.keys(projectsData))
     
-    const vercelProjects: VercelProject[] = projectsData.projects || []
+    const vercelProjects: RawVercelProject[] = projectsData.projects || []
 
     // Transform each project using latestDeployments from project data
-    const transformedProjects = vercelProjects.map((vercelProject) => {
+    const transformedProjects: ProjectWithSource[] = vercelProjects.map((vercelProject) => {
       // Use the first deployment from latestDeployments if available
       const latestDeployment = vercelProject.latestDeployments?.[0] as any
       return transformVercelProject(vercelProject, latestDeployment)
     })
 
-    console.log("[api/projects] Successfully transformed projects:", transformedProjects.length)
     return NextResponse.json({ projects: transformedProjects })
   } catch (error) {
     console.error("[api/projects] Caught error:", error)

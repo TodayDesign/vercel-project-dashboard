@@ -1,27 +1,28 @@
-import { convertVercelProjectToProject } from './project-utils'
-import { VercelProject } from './types'
+import { transformVercelProject } from './vercel-transform'
+import { RawVercelProject } from './types'
 import exampleData from './example-vercel-project-data.json'
 
-// Example usage of the conversion function
+// Example usage of the new transformation function
 export function exampleUsage() {
-  // Convert the example Vercel project data to our Project interface
-  const vercelProject = exampleData as VercelProject
-  const project = convertVercelProjectToProject(vercelProject)
+  // Transform the example Vercel project data to our new structure
+  const vercelProject = exampleData as RawVercelProject
+  const projectWithSource = transformVercelProject(vercelProject)
   
-  // console.log('Converted project:', {
-  //   name: project.name,
-  //   projectUrl: project.projectUrl,
-  //   settingsUrl: project.settingsUrl,
+  // console.log('Transformed project:', {
+  //   name: projectWithSource.transformed.name,
+  //   projectUrl: projectWithSource.transformed.projectUrl,
+  //   settingsUrl: projectWithSource.transformed.settingsUrl,
   //   lastDeployment: {
-  //     branch: project.lastDeployment.branch,
-  //     commit: project.lastDeployment.commit,
-  //     triggeredBy: project.lastDeployment.triggeredBy.name
+  //     branch: projectWithSource.transformed.lastDeployment.branch,
+  //     commit: projectWithSource.transformed.lastDeployment.commit,
+  //     triggeredBy: projectWithSource.transformed.lastDeployment.triggeredBy.name
   //   }
   // })
   
-  return project
+  return projectWithSource
 }
 
 // Example of how the URLs are constructed:
 // - projectUrl: "https://wedding.malyaris.com" (prefers custom domain)
-// - settingsUrl: "https://vercel.com/team_vvOPe5hPVQA3MXDBRAAIpXUG/guy-malyaris-wedding/settings" 
+// - settingsUrl: "https://vercel.com/team_vvOPe5hPVQA3MXDBRAAIpXUG/guy-malyaris-wedding/settings"
+// - sourceCodeUrl: "https://github.com/nikmaly/guy-malyaris-wedding" 

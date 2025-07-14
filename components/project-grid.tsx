@@ -1,8 +1,8 @@
-import { Project } from "@/lib/types"
+import { ProjectWithSource } from "@/lib/types"
 import { EnhancedProjectCard } from "./enhanced-project-card"
 
 interface ProjectGridProps {
-  projects: Project[]
+  projects: ProjectWithSource[]
 }
 
 export function ProjectGrid({ projects }: ProjectGridProps) {
@@ -18,7 +18,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
-        <EnhancedProjectCard key={project.id} project={project} />
+        <EnhancedProjectCard key={project.transformed.id} project={project} />
       ))}
     </div>
   )

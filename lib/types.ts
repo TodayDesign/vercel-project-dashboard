@@ -1,4 +1,493 @@
 // Vercel API Project interface based on the example data
+export interface RawVercelProject {
+  accountId: string
+  speedInsights: {
+    id: string
+    hasData: boolean
+  }
+  autoExposeSystemEnvs: boolean
+  autoAssignCustomDomains: boolean
+  autoAssignCustomDomainsUpdatedBy: string
+  buildCommand: string | null
+  createdAt: number
+  crons: {
+    enabledAt: number
+    disabledAt: number | null
+    updatedAt: number
+    deploymentId: string
+    definitions: any[]
+  }
+  devCommand: string | null
+  directoryListing: boolean
+  env?: {
+    target: string[]
+    configurationId: string | null
+    id: string
+    key: string
+    createdAt: number
+    updatedAt: number
+    createdBy: string
+    updatedBy: string | null
+    type: string
+    value: string
+    customEnvironmentIds: string[]
+  }[]
+  framework: string
+  gitForkProtection: boolean
+  gitLFS: boolean
+  id: string
+  installCommand: string | null
+  lastRollbackTarget: any
+  lastAliasRequest: any
+  name: string
+  nodeVersion: string
+  outputDirectory: string | null
+  passwordProtection: any
+  publicSource: any
+  defaultResourceConfig: {
+    fluid: boolean
+    functionDefaultRegions: string[]
+    functionDefaultTimeout: number
+    functionDefaultMemoryType: string
+    functionZeroConfigFailover: boolean
+    elasticConcurrencyEnabled: boolean
+  }
+  resourceConfig: {
+    functionDefaultRegions: string[]
+    functionDefaultMemoryType: string
+  }
+  rootDirectory: string | null
+  serverlessFunctionRegion: string
+  sourceFilesOutsideRootDirectory: boolean
+  updatedAt: number
+  live: boolean
+  gitComments: {
+    onCommit: boolean
+    onPullRequest: boolean
+  }
+  webAnalytics: {
+    id: string
+  }
+  link: {
+    type: "github" | "gitlab"
+    projectId: string
+    projectName: string
+    projectNameWithNamespace: string
+    projectNamespace: string
+    projectUrl: string
+    gitCredentialId: string
+    productionBranch: string
+    createdAt: number
+    updatedAt: number
+    deployHooks: {
+      createdAt: number
+      id: string
+      name: string
+      ref: string
+      url: string
+    }[]
+  }
+  latestDeployments: {
+    alias: string[]
+    aliasAssigned: number
+    aliasError: string | null
+    automaticAliases: string[]
+    builds: any[]
+    createdAt: number
+    createdIn: string
+    creator: {
+      uid: string
+      email: string
+      username: string
+    }
+    deploymentHostname: string
+    forced: boolean
+    id: string
+    meta: {
+      gitlabCommitAuthorName?: string
+      gitlabCommitMessage?: string
+      gitlabCommitRef?: string
+      gitlabCommitSha?: string
+      gitlabDeployment?: string
+      gitlabProjectName?: string
+      gitlabProjectNamespace?: string
+      gitlabProjectPath?: string
+      gitlabProjectRepo?: string
+      gitlabNamespaceKind?: string
+      gitlabProjectId?: string
+      gitlabCommitRawAuthorEmail?: string
+      gitlabProjectVisibility?: string
+      githubCommitAuthorName?: string
+      githubCommitMessage?: string
+      githubCommitRef?: string
+      githubCommitSha?: string
+      githubProjectName?: string
+      githubProjectNamespace?: string
+      githubProjectPath?: string
+      githubProjectRepo?: string
+      githubNamespaceKind?: string
+      githubProjectId?: string
+      githubCommitRawAuthorEmail?: string
+      githubProjectVisibility?: string
+      deployHookId?: string
+      deployHookRef?: string
+      deployHookName?: string
+      branchAlias?: string
+    }
+    name: string
+    plan: string
+    private: boolean
+    readyState: "READY" | "BUILDING" | "ERROR" | "QUEUED" | "INITIALIZING" | "CANCELED"
+    readySubstate: string
+    target: "production" | "preview"
+    teamId: string
+    type: string
+    url: string
+    userId: string
+    withCache: boolean
+    buildingAt: number
+    readyAt: number
+    previewCommentsEnabled: boolean
+    oidcTokenClaims: {
+      sub: string
+      iss: string
+      scope: string
+      aud: string
+      owner: string
+      owner_id: string
+      project: string
+      project_id: string
+      environment: string
+    }
+  }[]
+  targets: {
+    production: {
+      alias: string[]
+      aliasAssigned: number
+      aliasError: string | null
+      automaticAliases: string[]
+      builds: any[]
+      createdAt: number
+      createdIn: string
+      creator: {
+        uid: string
+        email: string
+        username: string
+      }
+      deploymentHostname: string
+      forced: boolean
+      id: string
+      meta: {
+        gitlabCommitAuthorName?: string
+        gitlabCommitMessage?: string
+        gitlabCommitRef?: string
+        gitlabCommitSha?: string
+        gitlabDeployment?: string
+        gitlabProjectName?: string
+        gitlabProjectNamespace?: string
+        gitlabProjectPath?: string
+        gitlabProjectRepo?: string
+        gitlabNamespaceKind?: string
+        gitlabProjectId?: string
+        gitlabCommitRawAuthorEmail?: string
+        gitlabProjectVisibility?: string
+        githubCommitAuthorName?: string
+        githubCommitMessage?: string
+        githubCommitRef?: string
+        githubCommitSha?: string
+        githubProjectName?: string
+        githubProjectNamespace?: string
+        githubProjectPath?: string
+        githubProjectRepo?: string
+        githubNamespaceKind?: string
+        githubProjectId?: string
+        githubCommitRawAuthorEmail?: string
+        githubProjectVisibility?: string
+        deployHookId?: string
+        deployHookRef?: string
+        deployHookName?: string
+        branchAlias?: string
+      }
+      name: string
+      plan: string
+      private: boolean
+      readyState: "READY" | "BUILDING" | "ERROR" | "QUEUED" | "INITIALIZING" | "CANCELED"
+      readySubstate: string
+      target: "production"
+      teamId: string
+      type: string
+      url: string
+      userId: string
+      withCache: boolean
+      buildingAt: number
+      readyAt: number
+      previewCommentsEnabled: boolean
+      oidcTokenClaims: {
+        sub: string
+        iss: string
+        scope: string
+        aud: string
+        owner: string
+        owner_id: string
+        project: string
+        project_id: string
+        environment: string
+      }
+    }
+  }
+  transferStartedAt: number
+  transferCompletedAt: number
+  transferredFromAccountId: string
+  features: {
+    webAnalytics: boolean
+  }
+}
+
+// Sanitized Vercel project data with sensitive information removed
+export interface SanitizedVercelProject {
+  accountId: string
+  speedInsights: {
+    id: string
+    hasData: boolean
+  }
+  autoExposeSystemEnvs: boolean
+  autoAssignCustomDomains: boolean
+  autoAssignCustomDomainsUpdatedBy: string
+  buildCommand: string | null
+  createdAt: number
+  crons: {
+    enabledAt: number
+    disabledAt: number | null
+    updatedAt: number
+    deploymentId: string
+    definitions: any[]
+  }
+  devCommand: string | null
+  directoryListing: boolean
+  env?: {
+    target: string[]
+    configurationId: string | null
+    id: string
+    key: string
+    createdAt: number
+    updatedAt: number
+    createdBy: string
+    updatedBy: string | null
+    type: string
+    value: string
+    customEnvironmentIds: string[]
+  }[]
+  framework: string
+  gitForkProtection: boolean
+  gitLFS: boolean
+  id: string
+  installCommand: string | null
+  lastRollbackTarget: any
+  lastAliasRequest: any
+  name: string
+  nodeVersion: string
+  outputDirectory: string | null
+  passwordProtection: any
+  publicSource: any
+  defaultResourceConfig: {
+    fluid: boolean
+    functionDefaultRegions: string[]
+    functionDefaultTimeout: number
+    functionDefaultMemoryType: string
+    functionZeroConfigFailover: boolean
+    elasticConcurrencyEnabled: boolean
+  }
+  resourceConfig: {
+    functionDefaultRegions: string[]
+    functionDefaultMemoryType: string
+  }
+  rootDirectory: string | null
+  serverlessFunctionRegion: string
+  sourceFilesOutsideRootDirectory: boolean
+  updatedAt: number
+  live: boolean
+  gitComments: {
+    onCommit: boolean
+    onPullRequest: boolean
+  }
+  webAnalytics: {
+    id: string
+  }
+  link: {
+    type: "github" | "gitlab"
+    projectId: string
+    projectName: string
+    projectNameWithNamespace: string
+    projectNamespace: string
+    projectUrl: string
+    gitCredentialId: string
+    productionBranch: string
+    createdAt: number
+    updatedAt: number
+    deployHooks: {
+      createdAt: number
+      id: string
+      name: string
+      ref: string
+      url: string
+    }[]
+  }
+  latestDeployments: {
+    alias: string[]
+    aliasAssigned: number
+    aliasError: string | null
+    automaticAliases: string[]
+    builds: any[]
+    createdAt: number
+    createdIn: string
+    creator: {
+      uid: string
+      email: string
+      username: string
+    }
+    deploymentHostname: string
+    forced: boolean
+    id: string
+    meta: {
+      gitlabCommitAuthorName?: string
+      gitlabCommitMessage?: string
+      gitlabCommitRef?: string
+      gitlabCommitSha?: string
+      gitlabDeployment?: string
+      gitlabProjectName?: string
+      gitlabProjectNamespace?: string
+      gitlabProjectPath?: string
+      gitlabProjectRepo?: string
+      gitlabNamespaceKind?: string
+      gitlabProjectId?: string
+      gitlabCommitRawAuthorEmail?: string
+      gitlabProjectVisibility?: string
+      githubCommitAuthorName?: string
+      githubCommitMessage?: string
+      githubCommitRef?: string
+      githubCommitSha?: string
+      githubProjectName?: string
+      githubProjectNamespace?: string
+      githubProjectPath?: string
+      githubProjectRepo?: string
+      githubNamespaceKind?: string
+      githubProjectId?: string
+      githubCommitRawAuthorEmail?: string
+      githubProjectVisibility?: string
+      deployHookId?: string
+      deployHookRef?: string
+      deployHookName?: string
+      branchAlias?: string
+    }
+    name: string
+    plan: string
+    private: boolean
+    readyState: "READY" | "BUILDING" | "ERROR" | "QUEUED" | "INITIALIZING" | "CANCELED"
+    readySubstate: string
+    target: "production" | "preview"
+    teamId: string
+    type: string
+    url: string
+    userId: string
+    withCache: boolean
+    buildingAt: number
+    readyAt: number
+    previewCommentsEnabled: boolean
+    oidcTokenClaims: {
+      sub: string
+      iss: string
+      scope: string
+      aud: string
+      owner: string
+      owner_id: string
+      project: string
+      project_id: string
+      environment: string
+    }
+  }[]
+  targets: {
+    production: {
+      alias: string[]
+      aliasAssigned: number
+      aliasError: string | null
+      automaticAliases: string[]
+      builds: any[]
+      createdAt: number
+      createdIn: string
+      creator: {
+        uid: string
+        email: string
+        username: string
+      }
+      deploymentHostname: string
+      forced: boolean
+      id: string
+      meta: {
+        gitlabCommitAuthorName?: string
+        gitlabCommitMessage?: string
+        gitlabCommitRef?: string
+        gitlabCommitSha?: string
+        gitlabDeployment?: string
+        gitlabProjectName?: string
+        gitlabProjectNamespace?: string
+        gitlabProjectPath?: string
+        gitlabProjectRepo?: string
+        gitlabNamespaceKind?: string
+        gitlabProjectId?: string
+        gitlabCommitRawAuthorEmail?: string
+        gitlabProjectVisibility?: string
+        githubCommitAuthorName?: string
+        githubCommitMessage?: string
+        githubCommitRef?: string
+        githubCommitSha?: string
+        githubProjectName?: string
+        githubProjectNamespace?: string
+        githubProjectPath?: string
+        githubProjectRepo?: string
+        githubNamespaceKind?: string
+        githubProjectId?: string
+        githubCommitRawAuthorEmail?: string
+        githubProjectVisibility?: string
+        deployHookId?: string
+        deployHookRef?: string
+        deployHookName?: string
+        branchAlias?: string
+      }
+      name: string
+      plan: string
+      private: boolean
+      readyState: "READY" | "BUILDING" | "ERROR" | "QUEUED" | "INITIALIZING" | "CANCELED"
+      readySubstate: string
+      target: "production"
+      teamId: string
+      type: string
+      url: string
+      userId: string
+      withCache: boolean
+      buildingAt: number
+      readyAt: number
+      previewCommentsEnabled: boolean
+      oidcTokenClaims: {
+        sub: string
+        iss: string
+        scope: string
+        aud: string
+        owner: string
+        owner_id: string
+        project: string
+        project_id: string
+        environment: string
+      }
+    }
+  }
+  transferStartedAt: number
+  transferCompletedAt: number
+  transferredFromAccountId: string
+  features: {
+    webAnalytics: boolean
+  }
+}
+
 export interface VercelProject {
   accountId: string
   id: string
@@ -262,6 +751,12 @@ export interface VercelProject {
   }
 }
 
+// New structure with source and transformed data
+export interface ProjectWithSource {
+  source: SanitizedVercelProject
+  transformed: Project
+}
+
 // Legacy Project interface for backward compatibility
 export interface Project {
   id: string
@@ -269,6 +764,7 @@ export interface Project {
   framework: string
   domain: string
   nodeVersion: string
+  serverlessFunctionRegion: string
   status: "ready" | "building" | "error" | "queued"
   // Add URLs for project links
   projectUrl: string // Production URL for viewing the project

@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react"
-import { Project } from "@/lib/types"
+import { ProjectWithSource } from "@/lib/types"
 import { useAuth } from "@/components/auth-provider"
 
 interface UseProjectsReturn {
-  projects: Project[]
+  projects: ProjectWithSource[]
   isLoading: boolean
   error: string | null
   refetch: () => Promise<void>
 }
 
 export function useProjects(): UseProjectsReturn {
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<ProjectWithSource[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { isAuthenticated } = useAuth()

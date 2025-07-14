@@ -1,13 +1,86 @@
-import { Project } from "./types"
+import { Project, SanitizedVercelProject, ProjectWithSource } from "./types"
 import { VercelDeployment } from "./vercel-api"
-import { VercelProject } from "./types"
+import { RawVercelProject } from "./types"
+
+/**
+ * Sanitizes Vercel project data by removing sensitive information
+ * @param vercelProject - The raw Vercel project data from API
+ * @returns Sanitized Vercel project data with sensitive information removed
+ */
+function sanitizeVercelProject(vercelProject: RawVercelProject): SanitizedVercelProject {
+  const sanitized = { ...vercelProject }
+  
+  // Remove environment variables entirely
+  delete sanitized.env
+  
+  // Redact sensitive IDs
+  sanitized.accountId = "[REDACTED]"
+  sanitized.id = "[REDACTED]"
+  
+  // Redact git credential ID
+  if (sanitized.link) {
+    sanitized.link = {
+      ...sanitized.link,
+      gitCredentialId: "[REDACTED]"
+    }
+  }
+  
+  // Remove deploy hook URLs
+  if (sanitized.link?.deployHooks) {
+    sanitized.link.deployHooks = sanitized.link.deployHooks.map(hook => ({
+      ...hook,
+      url: "[REDACTED]"
+    }))
+  }
+  
+  // Redact sensitive IDs in deployments
+  if (sanitized.latestDeployments) {
+    sanitized.latestDeployments = sanitized.latestDeployments.map(deployment => ({
+      ...deployment,
+      id: "[REDACTED]",
+      teamId: "[REDACTED]",
+      userId: "[REDACTED]",
+      creator: {
+        ...deployment.creator,
+        uid: "[REDACTED]"
+      }
+    }))
+  }
+  
+  // Redact sensitive IDs in targets
+  if (sanitized.targets?.production) {
+    sanitized.targets.production = {
+      ...sanitized.targets.production,
+      id: "[REDACTED]",
+      teamId: "[REDACTED]",
+      userId: "[REDACTED]",
+      creator: {
+        ...sanitized.targets.production.creator,
+        uid: "[REDACTED]"
+      }
+    }
+  }
+  
+  // Redact cron deployment ID
+  if (sanitized.crons) {
+    sanitized.crons = {
+      ...sanitized.crons,
+      deploymentId: "[REDACTED]"
+    }
+  }
+  
+  // Redact transfer account ID
+  sanitized.transferredFromAccountId = "[REDACTED]"
+  
+  return sanitized
+}
 
 /**
  * Extracts framework information from Vercel project data
  * @param vercelProject - The Vercel project data
  * @returns The framework name or "Unknown" if not available
  */
-function extractFramework(vercelProject: VercelProject): string {
+function extractFramework(vercelProject: RawVercelProject): string {
   return vercelProject.framework || "Unknown"
 }
 
@@ -16,18 +89,35 @@ function extractFramework(vercelProject: VercelProject): string {
  * @param vercelProject - The Vercel project data
  * @returns The production domain, preferring custom domains over vercel.app subdomains
  */
-function extractDomain(vercelProject: VercelProject): string {
+function extractDomain(vercelProject: RawVercelProject): string {
   const aliases = vercelProject.targets?.production?.alias
+  const automaticAliases = vercelProject.targets?.production?.automaticAliases || []
   
   if (!aliases || aliases.length === 0) {
     return vercelProject.name ? `${vercelProject.name}.vercel.app` : 'unknown.vercel.app'
   }
   
-  // Find first alias that doesn't include 'vercel.app'
-  const customDomain = aliases.find(alias => !alias.includes('vercel.app'))
+  // Remove any alias found in automaticAliases
+  const filteredAliases = aliases.filter(alias => !automaticAliases.includes(alias))
   
-  // Return custom domain if found, otherwise fallback to first alias
-  return customDomain || aliases[0]
+  // Check the length of the filtered array
+  if (filteredAliases.length > 0) {
+    // Continue with existing logic - find first alias that doesn't include 'vercel.app'
+    const customDomain = filteredAliases.find(alias => !alias.includes('vercel.app'))
+    
+    // Return custom domain if found, otherwise fallback to first filtered alias
+    return customDomain || filteredAliases[0]
+  } else {
+    // If no aliases remain after filtering, pick the shorter of the automaticAliases
+    if (automaticAliases.length > 0) {
+      return automaticAliases.reduce((shortest, current) => 
+        current.length < shortest.length ? current : shortest
+      )
+    }
+    
+    // Fallback to first original alias if no automaticAliases
+    return aliases[0]
+  }
 }
 
 /**
@@ -36,7 +126,7 @@ function extractDomain(vercelProject: VercelProject): string {
  * @param domain - The project domain for fallback URL
  * @returns Transformed deployment data
  */
-function transformDeployment(deployment: VercelDeployment, domain: string) {
+function transformDeployment(deployment: any, domain: string) {
   return {
     id: deployment.uid || deployment.id || "unknown",
     url: deployment.url,
@@ -68,7 +158,7 @@ function transformDeployment(deployment: VercelDeployment, domain: string) {
  * @param domain - The project domain
  * @returns Fallback deployment data
  */
-function createFallbackDeployment(vercelProject: VercelProject, domain: string) {
+function createFallbackDeployment(vercelProject: RawVercelProject, domain: string) {
   return {
     id: "unknown",
     url: `https://${domain}`,
@@ -91,7 +181,7 @@ function createFallbackDeployment(vercelProject: VercelProject, domain: string) 
  * @param deployment - The latest deployment data
  * @returns Project status string
  */
-function determineProjectStatus(deployment?: VercelDeployment): "ready" | "building" | "error" | "queued" {
+function determineProjectStatus(deployment?: any): "ready" | "building" | "error" | "queued" {
   if (!deployment) return "ready"
   
   switch (deployment.state) {
@@ -107,7 +197,7 @@ function determineProjectStatus(deployment?: VercelDeployment): "ready" | "build
  * @param vercelProject - The Vercel project data
  * @returns Array of transformed cron jobs
  */
-function transformCronJobs(vercelProject: VercelProject) {
+function transformCronJobs(vercelProject: RawVercelProject) {
   // Try the typed interface first
   if (vercelProject.crons?.definitions && Array.isArray(vercelProject.crons.definitions)) {
     return vercelProject.crons.definitions.map((cron: any, index: number) => ({
@@ -145,7 +235,7 @@ function transformCronJobs(vercelProject: VercelProject) {
  * @param lastDeployment - The last deployment data
  * @returns Environment configurations
  */
-function createEnvironments(vercelProject: VercelProject, domain: string, lastDeployment: any) {
+function createEnvironments(vercelProject: RawVercelProject, domain: string, lastDeployment: any) {
   return {
     production: {
       url: vercelProject.targets?.production?.url || `https://${domain}`,
@@ -176,14 +266,14 @@ function createEnvironments(vercelProject: VercelProject, domain: string, lastDe
  * @param vercelProject - The Vercel project data
  * @returns The source code URL
  */
-function extractSourceCodeUrl(vercelProject: VercelProject): string {
-  const link = (vercelProject as any).link
+function extractSourceCodeUrl(vercelProject: RawVercelProject): string {
+  const link = vercelProject.link
   
   if (!link) return ""
   
   // If it's a GitHub project, construct the GitHub URL
-  if (link.type === 'github' && link.org && link.repo) {
-    return `https://github.com/${link.org}/${link.repo}`
+  if (link.type === 'github' && link.projectNamespace && link.projectName) {
+    return `https://github.com/${link.projectNamespace}/${link.projectName}`
   }
   
   // Fallback to the project URL if available
@@ -196,10 +286,7 @@ function extractSourceCodeUrl(vercelProject: VercelProject): string {
  * @param latestDeployment - Optional latest deployment data
  * @returns Transformed Project object
  */
-export function transformVercelProject(
-  vercelProject: VercelProject,
-  latestDeployment?: VercelDeployment
-): Project {
+function transformToProject(vercelProject: RawVercelProject, latestDeployment?: any): Project {
   const framework = extractFramework(vercelProject)
   const domain = extractDomain(vercelProject)
   
@@ -218,6 +305,7 @@ export function transformVercelProject(
     framework,
     domain,
     nodeVersion: vercelProject.nodeVersion || "Unknown",
+    serverlessFunctionRegion: vercelProject.serverlessFunctionRegion || "Unknown",
     status,
     projectUrl: `https://${domain}`,
     settingsUrl: `https://vercel.com/dashboard/project/${vercelProject.id}/settings`,
@@ -239,11 +327,25 @@ export function transformVercelProject(
     }
   }
 
-  // Only include rawData in local development environment
-  if (process.env.NODE_ENV === 'development') {
-    projectData.rawData = vercelProject
-  }
-
   return projectData
+}
+
+/**
+ * Main transformation function that returns both sanitized source and transformed data
+ * @param vercelProject - The raw Vercel project data from API
+ * @param latestDeployment - Optional latest deployment data
+ * @returns Object containing both sanitized source and transformed data
+ */
+export function transformVercelProject(
+  vercelProject: RawVercelProject,
+  latestDeployment?: any
+): ProjectWithSource {
+  const sanitized = sanitizeVercelProject(vercelProject)
+  const transformed = transformToProject(vercelProject, latestDeployment)
+  
+  return {
+    source: sanitized,
+    transformed
+  }
 }
 

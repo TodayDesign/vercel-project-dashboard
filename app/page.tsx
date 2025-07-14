@@ -14,9 +14,9 @@ export default function VercelDashboard() {
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch =
-      project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.domain.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "all" || project.status === statusFilter
+      project.transformed.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.transformed.domain.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesStatus = statusFilter === "all" || project.transformed.status === statusFilter
     return matchesSearch && matchesStatus
   })
 

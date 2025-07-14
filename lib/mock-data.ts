@@ -1,336 +1,315 @@
-import { Project } from "./types"
+import { ProjectWithSource, SanitizedVercelProject } from "./types"
 
-export const mockProjects: Project[] = [
-  {
-    id: "1",
-    name: "my-nextjs-app",
-    framework: "Next.js",
-    domain: "my-nextjs-app.vercel.app",
-    nodeVersion: "18.x",
-    status: "ready",
-    lastDeployment: {
-      id: "dpl_abc123",
-      url: "https://my-nextjs-app-git-main.vercel.app",
-      createdAt: "2024-01-15T10:30:00Z",
-      state: "READY",
-      target: "production",
-      branch: "main",
-      commit: "feat: add new dashboard",
+// Create mock sanitized Vercel project data
+const createMockSanitizedProject = (id: string, name: string): SanitizedVercelProject => ({
+  accountId: "[REDACTED]",
+  speedInsights: {
+    id: `speed_${id}`,
+    hasData: true
+  },
+  autoExposeSystemEnvs: true,
+  autoAssignCustomDomains: true,
+  autoAssignCustomDomainsUpdatedBy: "system",
+  buildCommand: "npm run build",
+  createdAt: Date.now() - 86400000 * 30, // 30 days ago
+  crons: {
+    enabledAt: Date.now() - 86400000 * 7,
+    disabledAt: null,
+    updatedAt: Date.now() - 86400000,
+    deploymentId: "[REDACTED]",
+    definitions: []
+  },
+  devCommand: "npm run dev",
+  directoryListing: false,
+  framework: "nextjs",
+  gitForkProtection: true,
+  gitLFS: false,
+  id: "[REDACTED]",
+  installCommand: "npm install",
+  lastRollbackTarget: null,
+  lastAliasRequest: null,
+  name,
+  nodeVersion: "18.x",
+  outputDirectory: ".next",
+  passwordProtection: null,
+  publicSource: null,
+  defaultResourceConfig: {
+    fluid: false,
+    functionDefaultRegions: ["iad1"],
+    functionDefaultTimeout: 300,
+    functionDefaultMemoryType: "standard_legacy",
+    functionZeroConfigFailover: false,
+    elasticConcurrencyEnabled: false
+  },
+  resourceConfig: {
+    functionDefaultRegions: ["iad1"],
+    functionDefaultMemoryType: "standard_legacy"
+  },
+  rootDirectory: null,
+  serverlessFunctionRegion: "iad1",
+  sourceFilesOutsideRootDirectory: true,
+  updatedAt: Date.now() - 86400000,
+  live: true,
+  gitComments: {
+    onCommit: false,
+    onPullRequest: true
+  },
+  webAnalytics: {
+    id: `analytics_${id}`
+  },
+  link: {
+    type: "github" as const,
+    projectId: `proj_${id}`,
+    projectName: name,
+    projectNameWithNamespace: `mockuser/${name}`,
+    projectNamespace: "mockuser",
+    projectUrl: `https://github.com/mockuser/${name}`,
+    gitCredentialId: "[REDACTED]",
+    productionBranch: "main",
+    createdAt: Date.now() - 86400000 * 30,
+    updatedAt: Date.now() - 86400000 * 30,
+    deployHooks: [
+      {
+        createdAt: Date.now() - 86400000 * 30,
+        id: `hook_${id}`,
+        name: "GitHub",
+        ref: "main",
+        url: "[REDACTED]"
+      }
+    ]
+  },
+  latestDeployments: [
+    {
+      alias: [`${name}.vercel.app`, `${name}-git-main.vercel.app`],
+      aliasAssigned: Date.now() - 86400000,
+      aliasError: null,
+      automaticAliases: [`${name}-git-main.vercel.app`],
+      builds: [],
+      createdAt: Date.now() - 86400000,
+      createdIn: "sfo1",
+      creator: {
+        uid: "[REDACTED]",
+        email: "user@example.com",
+        username: "mockuser"
+      },
+      deploymentHostname: `${name}-mock123.vercel.app`,
+      forced: false,
+      id: "[REDACTED]",
+      meta: {
+        githubCommitAuthorName: "Mock User",
+        githubCommitMessage: "feat: add new features",
+        githubCommitRef: "main",
+        githubCommitSha: "abc123def456",
+        githubProjectName: name,
+        githubProjectNamespace: "mockuser",
+        githubProjectPath: `mockuser/${name}`,
+        githubProjectRepo: name,
+        githubNamespaceKind: "user",
+        githubProjectId: `proj_${id}`,
+        githubCommitRawAuthorEmail: "user@example.com",
+        githubProjectVisibility: "public",
+        deployHookId: `hook_${id}`,
+        deployHookRef: "main",
+        deployHookName: "GitHub",
+        branchAlias: `${name}-git-main.vercel.app`
+      },
+      name,
+      plan: "hobby",
+      private: false,
+      readyState: "READY" as const,
+      readySubstate: "PROMOTED",
+      target: "production" as const,
+      teamId: "[REDACTED]",
+      type: "LAMBDAS",
+      url: `https://${name}-mock123.vercel.app`,
+      userId: "[REDACTED]",
+      withCache: true,
+      buildingAt: Date.now() - 86400000,
+      readyAt: Date.now() - 86400000,
+      previewCommentsEnabled: true,
+      oidcTokenClaims: {
+        sub: "[REDACTED]",
+        iss: "https://oidc.vercel.com/team_mock123",
+        scope: `owner:team_mock123:project:${name}:environment:production`,
+        aud: "https://vercel.com/team_mock123",
+        owner: "[REDACTED]",
+        owner_id: "[REDACTED]",
+        project: name,
+        project_id: "[REDACTED]",
+        environment: "production"
+      }
+    }
+  ],
+  targets: {
+    production: {
+      alias: [`${name}.vercel.app`, `${name}-git-main.vercel.app`],
+      aliasAssigned: Date.now() - 86400000,
+      aliasError: null,
+      automaticAliases: [`${name}-git-main.vercel.app`],
+      builds: [],
+      createdAt: Date.now() - 86400000,
+      createdIn: "sfo1",
+      creator: {
+        uid: "[REDACTED]",
+        email: "user@example.com",
+        username: "mockuser"
+      },
+      deploymentHostname: `${name}-mock123.vercel.app`,
+      forced: false,
+      id: "[REDACTED]",
+      meta: {
+        githubCommitAuthorName: "Mock User",
+        githubCommitMessage: "feat: add new features",
+        githubCommitRef: "main",
+        githubCommitSha: "abc123def456",
+        githubProjectName: name,
+        githubProjectNamespace: "mockuser",
+        githubProjectPath: `mockuser/${name}`,
+        githubProjectRepo: name,
+        githubNamespaceKind: "user",
+        githubProjectId: `proj_${id}`,
+        githubCommitRawAuthorEmail: "user@example.com",
+        githubProjectVisibility: "public",
+        deployHookId: `hook_${id}`,
+        deployHookRef: "main",
+        deployHookName: "GitHub",
+        branchAlias: `${name}-git-main.vercel.app`
+      },
+      name,
+      plan: "hobby",
+      private: false,
+      readyState: "READY" as const,
+      readySubstate: "PROMOTED",
+      target: "production" as const,
+      teamId: "[REDACTED]",
+      type: "LAMBDAS",
+      url: `https://${name}-mock123.vercel.app`,
+      userId: "[REDACTED]",
+      withCache: true,
+      buildingAt: Date.now() - 86400000,
+      readyAt: Date.now() - 86400000,
+      previewCommentsEnabled: true,
+      oidcTokenClaims: {
+        sub: "[REDACTED]",
+        iss: "https://oidc.vercel.com/team_mock123",
+        scope: `owner:team_mock123:project:${name}:environment:production`,
+        aud: "https://vercel.com/team_mock123",
+        owner: "[REDACTED]",
+        owner_id: "[REDACTED]",
+        project: name,
+        project_id: "[REDACTED]",
+        environment: "production"
+      }
+    }
+  },
+  transferStartedAt: 0,
+  transferCompletedAt: 0,
+  transferredFromAccountId: "[REDACTED]",
+  features: {
+    webAnalytics: true
+  }
+})
+
+// Create mock transformed project data
+const createMockTransformedProject = (id: string, name: string, framework: string, status: "ready" | "building" | "error" | "queued") => ({
+  id,
+  name,
+  framework,
+  domain: `${name}.vercel.app`,
+  nodeVersion: "18.x",
+  status,
+  projectUrl: `https://${name}.vercel.app`,
+  settingsUrl: `https://vercel.com/dashboard/project/${id}/settings`,
+  sourceCodeUrl: `https://github.com/mockuser/${name}`,
+  lastDeployment: {
+    id: `dpl_${id}`,
+    url: `https://${name}-git-main.vercel.app`,
+    createdAt: new Date(Date.now() - 86400000).toISOString(),
+    state: status === "ready" ? "READY" as const : status === "building" ? "BUILDING" as const : "ERROR" as const,
+    target: "production" as const,
+    branch: "main",
+    commit: "feat: add new features",
+    version: "v1.2.3",
+    triggeredBy: {
+      name: "Mock User",
+      email: "user@example.com",
+      type: "git" as const
+    }
+  },
+  environments: {
+    production: {
+      url: `https://${name}.vercel.app`,
+      lastDeployed: new Date(Date.now() - 86400000).toISOString(),
       version: "v1.2.3",
-      triggeredBy: {
-        name: "John Doe",
-        email: "john@example.com",
-        type: "git",
-      },
+      status: "active" as const,
+      branch: "main" as const
     },
-    environments: {
-      production: {
-        url: "https://my-nextjs-app.vercel.app",
-        lastDeployed: "2024-01-15T10:30:00Z",
-        version: "v1.2.3",
-        status: "active",
-        branch: "main",
-      },
-      develop: {
-        url: "https://my-nextjs-app-git-develop.vercel.app",
-        lastDeployed: "2024-01-14T15:20:00Z",
-        version: "v1.2.4-dev.1",
-        status: "active",
-        branch: "develop",
-      },
-      staging: {
-        url: "https://my-nextjs-app-git-staging.vercel.app",
-        lastDeployed: "2024-01-13T09:45:00Z",
-        version: "v1.2.3-rc.2",
-        status: "active",
-        branch: "staging",
-      },
+    develop: {
+      url: `https://${name}-git-develop.vercel.app`,
+      lastDeployed: new Date(Date.now() - 86400000 * 2).toISOString(),
+      version: "v1.2.4-dev.1",
+      status: "active" as const,
+      branch: "develop" as const
     },
-    cronJobs: [
-      {
-        id: "cron_1",
-        name: "Daily Backup",
-        schedule: "0 2 * * *",
-        nextRun: "2024-01-16T02:00:00Z",
-        lastRun: "2024-01-15T02:00:00Z",
-        status: "active",
-        endpoint: "/api/backup",
-      },
-      {
-        id: "cron_2",
-        name: "Weekly Report",
-        schedule: "0 9 * * 1",
-        nextRun: "2024-01-22T09:00:00Z",
-        lastRun: "2024-01-15T09:00:00Z",
-        status: "active",
-        endpoint: "/api/weekly-report",
-      },
-    ],
-    versionInfo: {
-      dependencies: {
-        next: "14.0.4",
-        react: "18.2.0",
-        "react-dom": "18.2.0",
-        "@vercel/analytics": "1.1.1",
-        tailwindcss: "3.4.0",
-      },
-      devDependencies: {
-        "@types/node": "20.10.5",
-        "@types/react": "18.2.45",
-        typescript: "5.3.3",
-        eslint: "8.56.0",
-      },
-      buildCommand: "npm run build",
-      outputDirectory: ".next",
-      installCommand: "npm ci",
+    staging: {
+      url: `https://${name}-git-staging.vercel.app`,
+      lastDeployed: new Date(Date.now() - 86400000 * 3).toISOString(),
+      version: "v1.2.3-rc.2",
+      status: "active" as const,
+      branch: "staging" as const
+    }
+  },
+  cronJobs: [
+    {
+      id: "cron_1",
+      name: "Daily Backup",
+      schedule: "0 2 * * *",
+      nextRun: new Date(Date.now() + 3600000).toISOString(),
+      lastRun: new Date(Date.now() - 86400000).toISOString(),
+      status: "active" as const,
+      endpoint: "/api/backup"
+    }
+  ],
+  versionInfo: {
+    dependencies: {
+      next: "14.0.4",
+      react: "18.2.0",
+      "react-dom": "18.2.0"
     },
-    analytics: {
-      visitors: 1250,
-      requests: 5420,
-      bandwidth: "2.1 GB",
+    devDependencies: {
+      "@types/node": "20.10.5",
+      "@types/react": "18.2.45",
+      typescript: "5.3.3"
     },
+    buildCommand: "npm run build",
+    outputDirectory: ".next",
+    installCommand: "npm ci"
+  },
+  analytics: {
+    visitors: 1250,
+    requests: 5420,
+    bandwidth: "2.1 GB"
+  }
+})
+
+export const mockProjects: ProjectWithSource[] = [
+  {
+    source: createMockSanitizedProject("1", "my-nextjs-app"),
+    transformed: createMockTransformedProject("1", "my-nextjs-app", "Next.js", "ready")
   },
   {
-    id: "2",
-    name: "portfolio-site",
-    framework: "React",
-    domain: "portfolio-site.vercel.app",
-    nodeVersion: "20.x",
-    status: "building",
-    lastDeployment: {
-      id: "dpl_def456",
-      url: "https://portfolio-site-git-main.vercel.app",
-      createdAt: "2024-01-15T11:45:00Z",
-      state: "BUILDING",
-      target: "production",
-      branch: "main",
-      commit: "update: portfolio content",
-      version: "v2.1.0",
-      triggeredBy: {
-        name: "Jane Smith",
-        email: "jane@example.com",
-        type: "manual",
-      },
-    },
-    environments: {
-      production: {
-        url: "https://portfolio-site.vercel.app",
-        lastDeployed: "2024-01-14T09:15:00Z",
-        version: "v2.0.9",
-        status: "active",
-        branch: "main",
-      },
-      develop: {
-        url: "https://portfolio-site-git-develop.vercel.app",
-        lastDeployed: "2024-01-15T11:45:00Z",
-        version: "v2.1.0-dev.3",
-        status: "active",
-        branch: "develop",
-      },
-      staging: {
-        url: "https://portfolio-site-git-staging.vercel.app",
-        lastDeployed: "2024-01-14T16:30:00Z",
-        version: "v2.1.0-rc.1",
-        status: "inactive",
-        branch: "staging",
-      },
-    },
-    cronJobs: [
-      {
-        id: "cron_3",
-        name: "Content Sync",
-        schedule: "*/30 * * * *",
-        nextRun: "2024-01-15T12:30:00Z",
-        lastRun: "2024-01-15T12:00:00Z",
-        status: "active",
-        endpoint: "/api/sync-content",
-      },
-    ],
-    versionInfo: {
-      dependencies: {
-        react: "18.2.0",
-        "react-dom": "18.2.0",
-        vite: "5.0.10",
-        "framer-motion": "10.16.16",
-      },
-      devDependencies: {
-        "@types/react": "18.2.45",
-        "@vitejs/plugin-react": "4.2.1",
-        typescript: "5.3.3",
-      },
-      buildCommand: "npm run build",
-      outputDirectory: "dist",
-      installCommand: "npm install",
-    },
-    analytics: {
-      visitors: 890,
-      requests: 2340,
-      bandwidth: "1.5 GB",
-    },
+    source: createMockSanitizedProject("2", "portfolio-site"),
+    transformed: createMockTransformedProject("2", "portfolio-site", "React", "building")
   },
   {
-    id: "3",
-    name: "api-service",
-    framework: "Node.js",
-    domain: "api-service.vercel.app",
-    nodeVersion: "18.x",
-    status: "error",
-    lastDeployment: {
-      id: "dpl_ghi789",
-      url: "https://api-service-git-main.vercel.app",
-      createdAt: "2024-01-15T08:20:00Z",
-      state: "ERROR",
-      target: "production",
-      branch: "main",
-      commit: "fix: database connection",
-      version: "v0.8.2",
-      triggeredBy: {
-        name: "DevOps Bot",
-        email: "devops@example.com",
-        type: "webhook",
-      },
-    },
-    environments: {
-      production: {
-        url: "https://api-service.vercel.app",
-        lastDeployed: "2024-01-14T16:30:00Z",
-        version: "v0.8.1",
-        status: "active",
-        branch: "main",
-      },
-      develop: {
-        url: "https://api-service-git-develop.vercel.app",
-        lastDeployed: "2024-01-15T08:20:00Z",
-        version: "v0.8.2-dev.5",
-        status: "active",
-        branch: "develop",
-      },
-      staging: {
-        url: "https://api-service-git-staging.vercel.app",
-        lastDeployed: "2024-01-14T14:10:00Z",
-        version: "v0.8.2-rc.1",
-        status: "active",
-        branch: "staging",
-      },
-    },
-    cronJobs: [
-      {
-        id: "cron_4",
-        name: "Database Cleanup",
-        schedule: "0 1 * * *",
-        nextRun: "2024-01-16T01:00:00Z",
-        lastRun: "2024-01-15T01:00:00Z",
-        status: "active",
-        endpoint: "/api/cleanup",
-      },
-      {
-        id: "cron_5",
-        name: "Health Check",
-        schedule: "*/5 * * * *",
-        nextRun: "2024-01-15T12:25:00Z",
-        lastRun: "2024-01-15T12:20:00Z",
-        status: "active",
-        endpoint: "/api/health",
-      },
-    ],
-    versionInfo: {
-      dependencies: {
-        express: "4.18.2",
-        mongoose: "8.0.3",
-        jsonwebtoken: "9.0.2",
-        bcryptjs: "2.4.3",
-        cors: "2.8.5",
-      },
-      devDependencies: {
-        "@types/node": "20.10.5",
-        "@types/express": "4.17.21",
-        nodemon: "3.0.2",
-        typescript: "5.3.3",
-      },
-      buildCommand: "npm run build",
-      outputDirectory: "dist",
-      installCommand: "npm ci",
-    },
-    analytics: {
-      visitors: 450,
-      requests: 12500,
-      bandwidth: "5.2 GB",
-    },
-  },
+    source: createMockSanitizedProject("3", "api-service"),
+    transformed: createMockTransformedProject("3", "api-service", "Node.js", "error")
+  }
 ]
 
-export const errorProjects: Project[] = [
+export const errorProjects: ProjectWithSource[] = [
   {
-    id: "error-1",
-    name: "⚠️ API Connection Failed",
-    framework: "Unknown",
-    domain: "api-error.local",
-    nodeVersion: "Unknown",
-    status: "error",
-    lastDeployment: {
-      id: "error-deployment",
-      url: "https://api-error.local",
-      createdAt: new Date().toISOString(),
-      state: "ERROR",
-      target: "production",
-      branch: "Unknown",
-      commit: "⚠️ Unable to fetch deployment data",
-      version: "Unknown",
-      triggeredBy: {
-        name: "System Error",
-        email: "error@system.local",
-        type: "api",
-      },
-    },
-    environments: {
-      production: {
-        url: "https://api-error.local",
-        lastDeployed: new Date().toISOString(),
-        version: "Unknown",
-        status: "inactive",
-        branch: "main",
-      },
-      develop: {
-        url: "https://api-error-develop.local",
-        lastDeployed: new Date().toISOString(),
-        version: "Unknown",
-        status: "inactive",
-        branch: "develop",
-      },
-      staging: {
-        url: "https://api-error-staging.local",
-        lastDeployed: new Date().toISOString(),
-        version: "Unknown",
-        status: "inactive",
-        branch: "staging",
-      },
-    },
-    cronJobs: [
-      {
-        id: "error-cron-1",
-        name: "⚠️ Unable to load cron jobs",
-        schedule: "Unknown",
-        nextRun: new Date().toISOString(),
-        lastRun: new Date().toISOString(),
-        status: "inactive",
-        endpoint: "/api/error",
-      },
-    ],
-    versionInfo: {
-      dependencies: {
-        "⚠️": "Unable to fetch dependency information",
-      },
-      devDependencies: {
-        "⚠️": "Unable to fetch dev dependency information",
-      },
-      buildCommand: "⚠️ Unknown",
-      outputDirectory: "⚠️ Unknown",
-      installCommand: "⚠️ Unknown",
-    },
-    analytics: {
-      visitors: 0,
-      requests: 0,
-      bandwidth: "⚠️ Unavailable",
-    },
-  },
+    source: createMockSanitizedProject("error_1", "error-project"),
+    transformed: createMockTransformedProject("error_1", "error-project", "Unknown", "error")
+  }
 ]

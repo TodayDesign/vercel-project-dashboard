@@ -5,25 +5,28 @@ import { VercelProject } from "@/lib/types"
 import { requireAuth, createUnauthorizedResponse } from "@/lib/auth"
 
 /**
- * Returns error response when Vercel API token is not configured
- * @returns NextResponse with mock error projects data
+ * Returns 401 error response when Vercel API token is not configured
+ * @returns NextResponse with 401 status
  */
 const errorResponseNoApiToken = () => {
-  console.warn("[api/projects] VERCEL_API_TOKEN not found, using error data to indicate issue")
-  return NextResponse.json({ projects: errorProjects })
+  console.warn("[api/projects] VERCEL_API_TOKEN not found")
+  return NextResponse.json(
+    { error: "Vercel API token not configured" }, 
+    { status: 500 }
+  )
 }
 
 /**
  * Returns error response when Vercel API request fails
  * @param error - The error that occurred during API request
- * @returns NextResponse with mock error projects data
+ * @returns NextResponse with error status
  */
 const errorResponseApiFailure = (error: Error) => {
   console.error("[api/projects] Failed to fetch projects from Vercel API:", error)
-  
-  // Return error data to clearly indicate API failure
-  console.log("[api/projects] Returning error data to indicate API failure")
-  return NextResponse.json({ projects: errorProjects })
+  return NextResponse.json(
+    { error: "Failed to fetch projects from Vercel API" }, 
+    { status: 502 }
+  )
 }
 
 /**

@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, ReactNode } from "react"
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -30,7 +30,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
-      // Test authentication by making a request to a protected endpoint
+      // If username is 'authenticated-user', it means browser auth already succeeded
+      if (username === 'authenticated-user') {
+        setIsAuthenticated(true)
+        setUsername('authenticated-user')
+        return true
+      }
+
+      // Otherwise, test authentication by making a request with explicit credentials
       const credentials = btoa(`${username}:${password}`)
       const response = await fetch("/api/projects", {
         headers: {
@@ -58,27 +65,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
 
-  // Check for authentication on mount by testing API access
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/projects')
-        if (response.ok) {
-          // User is already authenticated via browser credentials
-          setIsAuthenticated(true)
-          // Try to extract username from response if possible
-          // For now, set a default since we can't easily get it from browser auth
-          setUsername('authenticated-user')
-        }
-      } catch (error) {
-        console.log('[AuthProvider] Initial auth check failed:', error)
-      }
-    }
-
-    if (typeof window !== "undefined" && !isAuthenticated) {
-      checkAuth()
-    }
-  }, [])
+  // No automatic auth check - let the browser handle authentication
+  // Authentication state will be set only after successful manual login
 
   return (
     <AuthContext.Provider

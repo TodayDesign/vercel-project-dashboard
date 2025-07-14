@@ -5,71 +5,28 @@ import { requireAuth, createUnauthorizedResponse } from "@/lib/auth"
 /**
  * Returns error response when Vercel API token is not configured
  * @param params - Route parameters containing projectId
- * @returns NextResponse with mock deployment data for the project
+ * @returns NextResponse with error status
  */
 const errorResponseNoApiToken = ({ params }: { params: { projectId: string } }) => {
-  console.warn("[api/deployments/[projectId]] VERCEL_API_TOKEN not found, using error data to indicate issue")
-      
-    // Return error data to indicate API issue
-    const project = errorProjects.find(p => p.id === params.projectId)
-    if (!project) {
-      return NextResponse.json({ error: "⚠️ API Connection Failed - Project not found" }, { status: 404 })
-    }
-
-    const errorDeployments = {
-      deployments: [
-        {
-          uid: project.lastDeployment.id,
-          name: project.name,
-          url: project.lastDeployment.url,
-          created: new Date(project.lastDeployment.createdAt).getTime(),
-          state: project.lastDeployment.state,
-          target: project.lastDeployment.target,
-          meta: {
-            githubCommitRef: project.lastDeployment.branch,
-            githubCommitMessage: project.lastDeployment.commit,
-            githubCommitSha: project.lastDeployment.version,
-          },
-        },
-      ],
-    }
-    return NextResponse.json(errorDeployments)
+  console.warn("[api/deployments/[projectId]] VERCEL_API_TOKEN not found")
+  return NextResponse.json(
+    { error: "Vercel API token not configured" }, 
+    { status: 500 }
+  )
 }
 
 /**
  * Returns error response when Vercel API request fails
  * @param params - Route parameters containing projectId
  * @param error - The error that occurred during API request
- * @returns NextResponse with mock deployment data for the project
+ * @returns NextResponse with error status
  */
 const errorResponseProjectNotFound = ({ params }: { params: { projectId: string } }, error: Error) => {
   console.error("[api/deployments/[projectId]] Failed to fetch deployments from Vercel API:", error)
-    
-    // Return error data to clearly indicate API failure
-    console.log("[api/deployments/[projectId]] Returning error data to indicate API failure")
-    const project = errorProjects.find(p => p.id === params.projectId)
-    if (!project) {
-      return NextResponse.json({ error: "⚠️ API Connection Failed - Project not found" }, { status: 404 })
-    }
-
-    const errorDeployments = {
-      deployments: [
-        {
-          uid: project.lastDeployment.id,
-          name: project.name,
-          url: project.lastDeployment.url,
-          created: new Date(project.lastDeployment.createdAt).getTime(),
-          state: project.lastDeployment.state,
-          target: project.lastDeployment.target,
-          meta: {
-            githubCommitRef: project.lastDeployment.branch,
-            githubCommitMessage: project.lastDeployment.commit,
-            githubCommitSha: project.lastDeployment.version,
-          },
-        },
-      ],
-    }
-    return NextResponse.json(errorDeployments)
+  return NextResponse.json(
+    { error: "Failed to fetch deployments from Vercel API" }, 
+    { status: 502 }
+  )
 }
 
 /**
